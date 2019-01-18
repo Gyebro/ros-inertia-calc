@@ -1,0 +1,614 @@
+<?xml version="1.0"?>
+<robot name="wheelchair">
+
+  <link name="base_footprint">
+    <visual>
+      <geometry>
+      	<box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin rpy="-1.57 0 0 " xyz="0 0 0.6"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/base.stl" scale="0.0254 0.0254 0.0254"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0 " xyz="0.1 0 0.17"/>
+      <geometry>
+        <box size="0.5 0.42 0.17"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="60"/>
+      <inertia ixx="48.1" ixy="0" ixz="0" iyy="48.1" iyz="0" izz="32.5"/>
+    </inertial>
+  </link>
+
+  <link name="seat_link">
+    <visual>
+      <origin rpy="-1.57 0 0 " xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/seat.stl" scale="0.0254 0.0254 0.0254"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0 " xyz="0.05 0 0"/>
+      <geometry>
+        <box size="0.5 0.45 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="11.2"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="seat_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="seat_link"/>
+    <origin rpy="0 0 0" xyz="0.1 0 0.4"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="legrest_link">
+    <visual>
+      <origin rpy="0 0 -1.57 " xyz="0.2 0 -0.12"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/legrest.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0 " xyz="0.27 0 -0.25"/>
+      <geometry>
+        <box size="0.3 0.5 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="4.0"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="legrest_joint" type="revolute">
+    <parent link="seat_link"/>
+    <child link="legrest_link"/>
+    <origin rpy="0 0 0" xyz="0.28 0 -0.05"/>
+    <limit effort="100" velocity="0.1" lower="-1.0" upper="0.2" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="cushion_link">
+    <collision>
+      <origin rpy="0 0 0 " xyz="0 0 0"/>
+      <geometry>
+        <box size="0.55 0.55 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.2"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="cushion_joint" type="fixed">
+    <parent link="seat_link"/>
+    <child link="cushion_link"/>
+    <origin rpy="0 0 0" xyz="0.05 0 0.08"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="backrest_link">
+    <visual>
+      <origin rpy="-1.57 0 0 " xyz="0.07 0 0.25"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/backrest.stl" scale="0.0254 0.0254 0.0254"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 1.2 0 " xyz="-0.1 0 0.3"/>
+      <geometry>
+        <box size="0.55 0.55 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="9.0"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="backrest_joint" type="revolute">
+    <parent link="seat_link"/>
+    <child link="backrest_link"/>
+    <origin rpy="0 0 0" xyz="-0.28 0 0.13"/>
+    <limit effort="100" velocity="0.1" lower="-0.8" upper="1.5" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="left_armrest_link">
+    <collision>
+      <origin rpy="0 0 0 " xyz="0 0 0"/>
+      <geometry>
+        <box size="0.5 0.09 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.8"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="left_armrest_joint" type="fixed">
+    <parent link="backrest_link"/>
+    <child link="left_armrest_link"/>
+    <origin rpy="0 0 0" xyz="0.15 0.32 0.17"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="right_armrest_link">
+    <collision>
+      <origin rpy="0 0 0 " xyz="0 0 0"/>
+      <geometry>
+        <box size="0.5 0.09 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.8"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="right_armrest_joint" type="fixed">
+    <parent link="backrest_link"/>
+    <child link="right_armrest_link"/>
+    <origin rpy="0 0 0" xyz="0.15 -0.32 0.17"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="left_wheel_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/front_wheel.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.07" radius="0.17" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.5"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_link"/>
+    <origin rpy="0 0 0" xyz="0.23 0.27 0.17"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="right_wheel_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/front_wheel.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.07" radius="0.17" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.5"/>
+      <inertia ixx="0.013242" ixy="0.0" ixz="0.0" iyy="0.013243" iyz="0.0" izz="0.0289"/>
+    </inertial>
+  </link>
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_link"/>
+    <origin rpy="0 0 0" xyz="0.23 -0.27 0.17"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="right_casterhub_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_hub_right.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_hub_right.dae" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+  <joint name="right_casterhub_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_casterhub_link"/>
+    <origin rpy="0 0 3.14" xyz="-0.3435 -0.19 0.1"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="right_casterwheel_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_wheel.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.07" radius="0.1" />
+       </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+  <joint name="right_casterwheel_joint" type="continuous">
+    <parent link="right_casterhub_link"/>
+    <child link="right_casterwheel_link"/>
+    <origin rpy="0 0 3.14" xyz="0.06 0 0"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="left_casterhub_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_hub_left.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_hub_left.dae" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+  <joint name="left_casterhub_link" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_casterhub_link"/>
+    <origin rpy="0 0 0" xyz="-0.3435 0.19 0.1"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <link name="left_casterwheel_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://wheelchair_model/meshes/caster_wheel.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <cylinder length="0.07" radius="0.1" />
+       </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+  <joint name="left_casterwheel_joint" type="continuous">
+    <parent link="left_casterhub_link"/>
+    <child link="left_casterwheel_link"/>
+    <origin rpy="0 0 3.14" xyz="-0.06 0 0"/>
+    <axis xyz="0 1 0" />
+  </joint>
+
+
+  <link name="imu_link">
+    <visual>
+      <geometry>
+      	<box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin rpy="0 3.14 0" xyz="0.3 0 0.2"/>
+  </joint>
+
+  <link name="pico_flexx_link_optical_frame" />
+   <link name="pico_flexx_depth_frame"/>
+   <link name="pico_flexx_link">
+     <visual>
+      <geometry>
+        <box size="0.007 0.066 0.016"/>
+      </geometry>
+      <material name="green"/>
+     </visual>
+     <collision>
+      <geometry>
+        <box size="0.007 0.066 0.016"/>
+      </geometry>
+     </collision>
+     <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.1"/>
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0"/>
+     </inertial>
+   </link>
+
+   <joint name="pico_flexx_base_joint" type="fixed">
+     <!--origin xyz="0.19 0.33 0.72" rpy="0 0 0"/>
+     <parent link="base_link"/-->
+     <origin xyz="0.38 0.325 0.15" rpy="0 0 0"/>
+     <parent link="backrest_link"/>
+     <child link="pico_flexx_link_optical_frame"/>
+   </joint>
+
+   <!-- laserscan derived from picoflexx (for hectorslam and tf clarity) -->
+   <link name="laser_link"/>
+   <joint name="laser_joint" type="fixed">
+     <origin xyz="0 0 0" rpy="0 0 0"/>
+     <parent link="pico_flexx_link_optical_frame"/>
+     <child link="laser_link"/>
+   </joint>
+
+   <joint name="pico_flexx_depth_joint" type="fixed">
+     <origin xyz="0 0 0" rpy="-1.570796327 0 -1.570796327" />
+     <parent link="pico_flexx_link_optical_frame" />
+     <child link="pico_flexx_depth_frame" />
+   </joint>
+
+    <joint name="pico_flexx_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="pico_flexx_link_optical_frame"/>
+      <child link="pico_flexx_link"/>
+    </joint>
+
+<!-- ===============  Sensors =============== -->
+
+  <!-- hector slam requires high resolution, long range lidar -->
+  <!--gazebo reference="laser_link">
+    <sensor type="gpu_ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14</min_angle>
+            <max_angle>3.14</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_gpu_laser.so">
+        <topicName>/scan</topicName>
+        <frameName>laser_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo-->
+
+  <gazebo reference="pico_flexx_link">
+     <sensor type="depth" name="pico_flexx_ir_sensor">
+       <always_on>true</always_on>
+       <update_rate>0.0</update_rate>
+       <camera>
+         <horizontal_fov>${62.0*1.570796327/180.0}</horizontal_fov>
+         <image>
+           <format>L8</format>
+           <width>224</width>
+           <height>171</height>
+         </image>
+         <clip>
+           <near>0.1</near>
+           <far>4.0</far>
+         </clip>
+       </camera>
+
+       <plugin name="pico_flexx_link_controller" filename="libgazebo_ros_openni_kinect.so">
+         <alwaysOn>true</alwaysOn>
+         <updateRate>5.0</updateRate>
+         <cameraName>pico_flexx</cameraName>
+         <depthImageTopicName>/pico_flexx/image_depth</depthImageTopicName>
+         <depthImageCameraInfoTopicName>/pico_flexx/camera_info</depthImageCameraInfoTopicName>
+         <pointCloudTopicName>/pico_flexx/points</pointCloudTopicName>
+         <frameName>pico_flexx_depth_frame</frameName>
+         <pointCloudCutoff>0.1</pointCloudCutoff>
+         <distortionK1>0.543855</distortionK1>
+         <distortionK2>-5.46349</distortionK2>
+         <distortionK3>9.46839</distortionK3>
+         <distortionT1>1.24867e-15</distortionT1>
+         <distortionT2>4.80239e-16</distortionT2>
+       </plugin>
+     </sensor>
+     <material value="Gazebo/Black" />
+   </gazebo>
+
+  <gazebo>
+     <plugin name="mag_sim" filename="libhector_gazebo_ros_magnetic.so">
+       <bodyName>imu_link</bodyName>
+       <frameId>imu_link</frameId>
+       <topicName>/imu/raw/magneto</topicName>
+       <updateRate>100</updateRate>
+       <rpyOffsets>0 3.14 0</rpyOffsets>
+     </plugin>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+   <gravity>true</gravity>
+   <sensor name="imu_sensor" type="imu">
+     <always_on>true</always_on>
+     <update_rate>100</update_rate>
+     <visualize>true</visualize>
+     <topic>imu/data_raw</topic>
+     <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+       <topicName>imu/data_raw</topicName>
+       <bodyName>imu_link</bodyName>
+       <updateRateHZ>100.0</updateRateHZ>
+       <gaussianNoise>0.0001</gaussianNoise>
+       <xyzOffset>0 0 0</xyzOffset>
+       <rpyOffset>0 3.14 0</rpyOffset>
+       <frameName>imu_link</frameName>
+     </plugin>
+   </sensor>
+ </gazebo>
+
+  <!-- ===============  Transmissions =============== -->
+
+  <transmission name="backrest_position">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="backrest_joint">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="backrest_actuator">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+       <mechanicalReduction>1</mechanicalReduction>
+       <motorTorqueConstant>1</motorTorqueConstant>
+    </actuator>
+  </transmission>
+
+  <transmission name="legrest_position">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="legrest_joint">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="legrest_actuator">
+       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+       <mechanicalReduction>1</mechanicalReduction>
+       <motorTorqueConstant>1</motorTorqueConstant>
+    </actuator>
+  </transmission>
+
+ <transmission name="left_wheel_trans">
+   <type>transmission_interface/SimpleTransmission</type>
+   <joint name="left_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+   </joint>
+   <actuator name="left_wheel_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1.8</mechanicalReduction>
+      <motorTorqueConstant>1</motorTorqueConstant>
+   </actuator>
+ </transmission>
+
+<transmission name="right_wheel_trans">
+   <type>transmission_interface/SimpleTransmission</type>
+   <joint name="right_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+   </joint>
+   <actuator name="right_wheel_motor">
+   <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1.8</mechanicalReduction>
+      <motorTorqueConstant>1</motorTorqueConstant>
+   </actuator>
+ </transmission>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>wheelchair</robotNamespace>
+    </plugin>
+  </gazebo>
+
+ <gazebo reference="base_link">
+   <selfCollide>true</selfCollide>
+   <mu1 value="200.0"/>
+   <mu2 value="100.0"/>
+   <kp value="10000000.0" />
+   <kd value="1.0" />
+  </gazebo>
+
+  <gazebo reference="seat_link">
+    <selfCollide>true</selfCollide>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+  </gazebo>
+
+  <gazebo reference="legrest_link">
+    <selfCollide>true</selfCollide>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+  </gazebo>
+
+  <gazebo reference="backrest_link">
+   <selfCollide>true</selfCollide>
+   <mu1 value="200.0"/>
+   <mu2 value="100.0"/>
+   <kp value="10000000.0" />
+   <kd value="1.0" />
+  </gazebo>
+
+ <gazebo reference="left_wheel_link">
+   <selfCollide>true</selfCollide>
+   <mu1 value="200.0"/>
+   <mu2 value="100.0"/>
+   <kp value="10000000.0" />
+   <kd value="1.0" />
+  </gazebo>
+
+ <gazebo reference="right_wheel_link">
+   <selfCollide>true</selfCollide>
+   <mu1 value="200.0"/>
+   <mu2 value="100.0"/>
+   <kp value="10000000.0" />
+   <kd value="1.0" />
+  </gazebo>
+
+ <gazebo reference="left_casterwheel_link">
+   <selfCollide>true</selfCollide>
+   <mu1 value="200.0"/>
+   <mu2 value="100.0"/>
+   <kp value="10000000.0" />
+   <kd value="1.0" />
+  </gazebo>
+
+  <gazebo reference="left_casterwheel_link">
+    <selfCollide>true</selfCollide>
+    <mu1 value="200.0"/>
+    <mu2 value="100.0"/>
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+   </gazebo>
+
+  <gazebo>
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>100.0</updateRate>
+      <bodyName>base_footprint</bodyName>
+      <topicName>base_pose_ground_truth</topicName>
+      <gaussianNoise>0.00001</gaussianNoise>
+      <frameName>world</frameName>
+      <xyzOffsets>0 0 0</xyzOffsets>
+      <rpyOffsets>0 0 0</rpyOffsets>
+    </plugin>
+  </gazebo>
+
+
+</robot>

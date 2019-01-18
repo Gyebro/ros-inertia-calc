@@ -1,0 +1,3 @@
+C:/Work/git/nowrobot/inertia-calc/cmake-build-debug/CMakeFiles/inertia_calc.dir
+C:/Work/git/nowrobot/inertia-calc/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Work/git/nowrobot/inertia-calc/cmake-build-debug/CMakeFiles/rebuild_cache.dir
