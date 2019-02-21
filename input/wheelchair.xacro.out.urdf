@@ -1,0 +1,633 @@
+<?xml version="1.0"?>
+<robot name="wheelchair" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Wheelchair -->
+    <link name="base_footprint">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+    </link>
+    <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint>
+    <link name="base_link">
+        <visual>
+            <origin rpy="-1.57 0 0 " xyz="0 0 0.6"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/base.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0 " xyz="0.1 0 0.17"/>
+            <geometry>
+                <box size="0.5 0.42 0.17"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0.1 0 0.17"/>
+            <geometry>
+                <box size="0.5 0.42 0.17"/>
+            </geometry>
+            <mass value="60"/>
+            <inertia ixx="1.0265" ixy="0" ixz="0" iyy="1.3944999999999999" iyz="0" izz="2.1320000000000001"/>
+        </inertial>
+    </link>
+    <gazebo reference="base_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <link name="seat_link">
+        <visual>
+            <origin rpy="-1.57 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/seat.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.57 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/seat.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0.05 0 0"/>
+            <geometry>
+                <box size="0.5 0.45 0.1"/>
+            </geometry>
+            <mass value="11.2"/>
+            <inertia ixx="0.19833333333333333" ixy="0" ixz="0" iyy="0.24266666666666664" iyz="0" izz="0.42233333333333328"/>
+        </inertial>
+    </link>
+    <gazebo reference="seat_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="seat_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="seat_link"/>
+        <origin rpy="0 0 0" xyz="0.1 0 0.4"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="legrest_link">
+        <visual>
+            <origin rpy="0 0 -1.57 " xyz="0.2 0 -0.12"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/legrest.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0 " xyz="0.27 0 -0.25"/>
+            <geometry>
+                <box size="0.3 0.5 0.05"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0.27 0 -0.25"/>
+            <geometry>
+                <box size="0.3 0.5 0.05"/>
+            </geometry>
+            <mass value="4.0"/>
+            <inertia ixx="0.084166666666666667" ixy="0" ixz="0" iyy="0.030833333333333331" iyz="0" izz="0.11333333333333331"/>
+        </inertial>
+    </link>
+    <gazebo reference="legrest_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="legrest_joint" type="revolute">
+        <parent link="seat_link"/>
+        <child link="legrest_link"/>
+        <origin rpy="0 0 0" xyz="0.28 0 -0.05"/>
+        <limit effort="100" velocity="0.1" lower="-1.0" upper="0.2"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <!--link name="cushion_link">
+        <collision>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.55 0.08"/>
+            </geometry>
+        </collision>
+        <inertial>
+          <origin rpy="0 0 0 " xyz="0 0 0"/>
+          <geometry>
+              <box size="0.55 0.55 0.1"/>
+          </geometry>
+            <mass value="1.2"/>
+            <inertia ixx="0.03125" ixy="0" ixz="0" iyy="0.03125" iyz="0" izz="0.060500000000000005"/>
+        </inertial>
+    </link>
+    <joint name="cushion_joint" type="fixed">
+        <parent link="seat_link"/>
+        <child link="cushion_link"/>
+        <origin rpy="0 0 0" xyz="0.05 0 0.08"/>
+        <axis xyz="0 1 0"/>
+    </joint-->
+    <link name="backrest_link">
+        <visual>
+            <origin rpy="-1.57 0 0 " xyz="0.07 0 0.25"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/backrest.stl" scale="0.0254 0.0254 0.0254"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 1.2 0 " xyz="-0.1 0 0.3"/>
+            <geometry>
+                <box size="0.55 0.55 0.1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 1.2 0 " xyz="-0.1 0 0.3"/>
+            <geometry>
+                <box size="0.55 0.55 0.1"/>
+            </geometry>
+            <mass value="9.0"/>
+            <inertia ixx="0.23437500000000006" ixy="0" ixz="0" iyy="0.23437500000000006" iyz="0" izz="0.4537500000000001"/>
+        </inertial>
+    </link>
+    <gazebo reference="backrest_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="backrest_joint" type="revolute">
+        <parent link="seat_link"/>
+        <child link="backrest_link"/>
+        <origin rpy="0 0 0" xyz="-0.28 0 0.13"/>
+        <limit effort="100" velocity="0.1" lower="-0.8" upper="0.5"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="left_armrest_link">
+        <collision>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.09 0.02"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.09 0.02"/>
+            </geometry>
+            <mass value="0.8"/>
+            <inertia ixx="0.0005666666666666666" ixy="0" ixz="0" iyy="0.016693333333333334" iyz="0" izz="0.017206666666666665"/>
+        </inertial>
+    </link>
+    <joint name="left_armrest_joint" type="fixed">
+        <parent link="backrest_link"/>
+        <child link="left_armrest_link"/>
+        <origin rpy="0 0 0" xyz="0.15 0.32 0.17"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="right_armrest_link">
+        <collision>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.09 0.02"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <box size="0.5 0.09 0.02"/>
+            </geometry>
+            <mass value="0.8"/>
+            <inertia ixx="0.0005666666666666666" ixy="0" ixz="0" iyy="0.016693333333333334" iyz="0" izz="0.017206666666666665"/>
+        </inertial>
+    </link>
+    <joint name="right_armrest_joint" type="fixed">
+        <parent link="backrest_link"/>
+        <child link="right_armrest_link"/>
+        <origin rpy="0 0 0" xyz="0.15 -0.32 0.17"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="left_wheel_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/front_wheel.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.17"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.17"/>
+            </geometry>
+            <mass value="3.5"/>
+            <inertia ixx="0.02671666666666667" ixy="0" ixz="0" iyy="0.02671666666666667" iyz="0" izz="0.050575000000000009"/>
+        </inertial>
+    </link>
+    <gazebo reference="left_wheel_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin rpy="0 0 0" xyz="0.23 0.27 0.17"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="right_wheel_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/front_wheel.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.17"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.17"/>
+            </geometry>
+            <mass value="3.5"/>
+            <inertia ixx="0.02671666666666667" ixy="0" ixz="0" iyy="0.02671666666666667" iyz="0" izz="0.050575000000000009"/>
+        </inertial>
+    </link>
+    <gazebo reference="right_wheel_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin rpy="0 0 0" xyz="0.23 -0.27 0.17"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="right_casterhub_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_right.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_right.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_right.dae"/>
+            </geometry>
+            <mass value="1.0"/>
+            <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+        </inertial>
+    </link>
+    <joint name="right_casterhub_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_casterhub_link"/>
+        <origin rpy="0 0 3.14" xyz="-0.3435 -0.19 0.1"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="right_casterwheel_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_wheel.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.1"/>
+            </geometry>
+            <mass value="3.0"/>
+            <inertia ixx="0.0087250000000000019" ixy="0" ixz="0" iyy="0.0087250000000000019" iyz="0" izz="0.015000000000000003"/>
+        </inertial>
+    </link>
+    <gazebo reference="left_casterwheel_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="right_casterwheel_joint" type="continuous">
+        <parent link="right_casterhub_link"/>
+        <child link="right_casterwheel_link"/>
+        <origin rpy="0 0 3.14" xyz="0.06 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="left_casterhub_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_left.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_left.dae"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_hub_left.dae"/>
+            </geometry>
+            <mass value="1.0"/>
+            <inertia ixx="0.00261" ixy="0.0" ixz="0.0" iyy="0.00261" iyz="0.0" izz="0.005"/>
+        </inertial>
+    </link>
+    <joint name="left_casterhub_link" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_casterhub_link"/>
+        <origin rpy="0 0 0" xyz="-0.3435 0.19 0.1"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="left_casterwheel_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/caster_wheel.dae" scale="1.0 1.0 1.0"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
+            <geometry>
+                <cylinder length="0.07" radius="0.1"/>
+            </geometry>
+            <mass value="3.0"/>
+            <inertia ixx="0.0087250000000000019" ixy="0" ixz="0" iyy="0.0087250000000000019" iyz="0" izz="0.015000000000000003"/>
+        </inertial>
+    </link>
+    <gazebo reference="left_casterwheel_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="left_casterwheel_joint" type="continuous">
+        <parent link="left_casterhub_link"/>
+        <child link="left_casterwheel_link"/>
+        <origin rpy="0 0 3.14" xyz="-0.06 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <!-- driver -->
+    <xacro:property name="model_scale_x" value="0.3"/>
+    <xacro:property name="model_scale_y" value="0.3"/>
+    <xacro:property name="model_scale_z" value="0.3"/>
+    <link name="body_link">
+        <visual>
+            <origin rpy="-1.7 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/driver_body.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.7 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/driver_body.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+            <!--origin rpy="0 -0.4 0 " xyz="-0.12 0 0.24"/>
+            <geometry>
+                <cylinder radius="0.12" length="0.35"/>
+            </geometry-->
+        </collision>
+        <inertial>
+            <origin rpy="-1.7 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.12" length="0.5"/>
+            </geometry>
+            <mass value="50"/>
+            <inertia ixx="1.2216666666666665" ixy="0" ixz="0" iyy="1.2216666666666665" iyz="0" izz="0.35999999999999999"/>
+        </inertial>
+    </link>
+    <gazebo reference="body_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="body_to_seat_joint" type="prismatic">
+        <parent link="backrest_link"/>
+        <child link="body_link"/>
+        <origin rpy="0 0 0" xyz="0.12 0 0.05"/>
+        <limit effort="10" velocity="20.0" lower="0" upper="0.03"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+    <gazebo reference="body_to_seat_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <springStiffness>50</springStiffness>
+        <springReference>0.01</springReference>
+    </gazebo>
+    <link name="neck_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.015" length="0.13"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.13"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.13"/>
+            </geometry>
+            <mass value="1"/>
+            <inertia ixx="0.0015645833333333336" ixy="0" ixz="0" iyy="0.0015645833333333336" iyz="0" izz="0.00031250000000000006"/>
+        </inertial>
+    </link>
+    <joint name="head_yaw_joint" type="revolute">
+        <parent link="body_link"/>
+        <child link="neck_link"/>
+        <origin rpy="0 0.42 0" xyz="-0.15 0 0.65"/>
+        <limit effort="10" velocity="20.0" lower="-1.0" upper="1.0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="atlas_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.0001"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.025"/>
+            </geometry>
+            <mass value="0.01"/>
+            <inertia ixx="2.5000000000000002e-06" ixy="0" ixz="0" iyy="2.5000000000000002e-06" iyz="0" izz="2.5000000000000002e-06"/>
+        </inertial>
+    </link>
+    <joint name="head_pitch_joint" type="revolute">
+        <parent link="neck_link"/>
+        <child link="atlas_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0.09"/>
+        <limit effort="10" velocity="20.0" lower="-1.0" upper="0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <link name="head_link">
+        <visual>
+            <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/driver_head.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/driver_head.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin rpy="0 0 0 " xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="0.08"/>
+            </geometry>
+            <mass value="4"/>
+            <inertia ixx="0.010240000000000001" ixy="0" ixz="0" iyy="0.010240000000000001" iyz="0" izz="0.010240000000000001"/>
+        </inertial>
+    </link>
+    <joint name="head_roll_joint" type="revolute">
+        <parent link="atlas_link"/>
+        <child link="head_link"/>
+        <origin rpy="0 0 0" xyz="0.02 0 0.05"/>
+        <limit effort="1" velocity="20.0" lower="-0.5" upper="0.5"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+    <!--link name="right_hip_link">
+        <visual>
+            <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/right_leg_hip.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+        </visual>
+        <collision>
+          <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://head_drive_model/meshes/right_leg_hip.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <origin rpy="0 0 0 " xyz="0 0 0"/>
+          <geometry>
+              <spehere radius="0.08"/>
+          </geometry>
+            <mass value="4"/>
+            <inertia ixx="0.19833333333333333" ixy="0" ixz="0" iyy="0.24266666666666664" iyz="0" izz="0.42233333333333328"/>
+        </inertial>
+    </link>
+    <gazebo reference="right_hip_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="right_hip_joint" type="revolute">
+        <parent link="body_link"/>
+        <child link="right_hip_link"/>
+        <origin rpy="0 -1.5 0" xyz="0 -0.08 0.04"/>
+        <limit effort="1" velocity="20.0" lower="-0.1" upper="0.1"/>
+        <axis xyz="1 0 0"/>
+    </joint>
+    <gazebo reference="right_hip_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <springStiffness>5</springStiffness>
+        <springReference>0.01</springReference>
+    </gazebo>
+
+    <link name="right_shin_link">
+        <visual>
+            <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://head_drive_model/meshes/right_leg_shin.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+            </geometry>
+        </visual>
+        <collision>
+          <origin rpy="-1.57 3.14 -1.57 " xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://head_drive_model/meshes/right_leg_shin.stl" scale="${model_scale_x} ${model_scale_y} ${model_scale_z}"/>
+          </geometry>
+        </collision>
+        <inertial>
+          <origin rpy="0 0 0 " xyz="0 0 0"/>
+          <geometry>
+              <spehere radius="0.08"/>
+          </geometry>
+            <mass value="4"/>
+            <inertia ixx="0.19833333333333333" ixy="0" ixz="0" iyy="0.24266666666666664" iyz="0" izz="0.42233333333333328"/>
+        </inertial>
+    </link>
+    <gazebo reference="right_shin_link">
+        <selfCollide>true</selfCollide>
+        <mu1 value="200.0"/>
+        <mu2 value="100.0"/>
+        <kp value="10000000.0"/>
+        <kd value="1.0"/>
+    </gazebo>
+    <joint name="right_shin_joint" type="revolute">
+        <parent link="right_hip_link"/>
+        <child link="right_shin_link"/>
+        <origin rpy="0 0 0" xyz="0 -0.045 -0.435"/>
+        <limit effort="1" velocity="20.0" lower="-0.1" upper="1.8"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <gazebo reference="right_shin_joint">
+        <implicitSpringDamper>true</implicitSpringDamper>
+        <springStiffness>50</springStiffness>
+        <springReference>0.1</springReference>
+    </gazebo-->
+    <!-- simulator -->
+    <xacro:include filename="$(find head_drive_model)/urdf/head_imu.xacro"/>
+    <xacro:include filename="$(find head_drive_model)/urdf/onboard_imu.xacro"/>
+    <xacro:include filename="$(find head_drive_model)/urdf/chair_control.xacro"/>
+    <xacro:include filename="$(find head_drive_model)/urdf/body_control.xacro"/>
+    <!--xacro:include filename="$(find head_drive_model)/urdf/range_array.xacro" /-->
+</robot>

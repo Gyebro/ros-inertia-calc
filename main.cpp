@@ -70,10 +70,11 @@ bool update_link_inertia_mx(XMLElement* link) {
     const char* linkname;
     link->QueryStringAttribute("name", &linkname);
     XMLElement *e;
-    XMLElement *geom;
+    XMLElement *inertial;
     XMLElement *inert;
+    XMLElement *geom;
     // Get geometry
-    e = link->FirstChildElement("collision");
+    /*e = link->FirstChildElement("collision");
     if (e == nullptr) {
         cout << "Link: '" << linkname << "' has no collision info." << endl;
         return false;
@@ -98,25 +99,45 @@ bool update_link_inertia_mx(XMLElement* link) {
                 return false;
             }
         }
-    }
-    // Get mass from 'inertial'
-    e = link->FirstChildElement("inertial");
+    }*/
+    // Get mass and geometry from 'inertial'
+    inertial = link->FirstChildElement("inertial");
     double mass;
-    if (e == nullptr) {
+    if (inertial == nullptr) {
         cout << "Link: '" << linkname << "' has no inertial info." << endl;
         return false;
     } else {
-        inert = e->FirstChildElement("inertia");
-        e = e->FirstChildElement("mass");
+        inert = inertial->FirstChildElement("inertia");
+        e = inertial->FirstChildElement("mass");
         if (e == nullptr) {
             cout << "Link: '" << linkname << "' has no inertial::mass info." << endl;
             return false;
         } else {
             e->QueryDoubleAttribute("value", &mass);
             cout << "Link: '" << linkname << "' has mass = " << mass << endl;
+            e = inertial->FirstChildElement("geometry");
+            if (e == nullptr) {
+                cout << "Link: '" << linkname << "' has no inertial::geometry info." << endl;
+                return false;
+            } else {
+                geom = e->FirstChildElement();
+                if (geom == nullptr) {
+                    cout << "Link: '" << linkname << "' has empty inertial::geometry info." << endl;
+                    return false;
+                } else if (strcmp(geom->Name(), "box") == 0) {
+                    cout << "Link: '" << linkname << "' has inertial::geometry::box info." << endl;
+                } else if (strcmp(geom->Name(), "cylinder") == 0) {
+                    cout << "Link: '" << linkname << "' has inertial::geometry::cylinder info." << endl;
+                } else if (strcmp(geom->Name(), "sphere") == 0) {
+                    cout << "Link: '" << linkname << "' has inertial::geometry::sphere info." << endl;
+                } else if (strcmp(geom->Name(), "mesh") == 0) {
+                    cout << "Link: '" << linkname << "' has inertial::geometry::mesh info, but that inertia source is not supported!" << endl;
+                    return false;
+                }
+            }
         }
         if (inert == nullptr) { // TODO: Could insert a new node instead of error!
-            cout << "Link: '" << linkname << "' has no inertial::inertia info." << endl;
+            cout << "Link: '" << linkname << "' has no inertial::inertia or suitable geometry info." << endl;
             return false;
         } else {
             calculate_link_inertia_mx(mass, geom, inert);
